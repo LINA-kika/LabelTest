@@ -4,8 +4,7 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
 import org.junit.Test
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
@@ -54,5 +53,14 @@ class MainActivityTest {
                 "2"))
         onView(withId(R.id.submitBTN)).perform(click())
         onView(withId(R.id.textLabel)).check(matches(withText("341@&#&")))
+    }
+
+    @Test
+    fun test_with_canceled_input() {
+        onView(withId(R.id.inputField)).perform(typeText("341@&#&2#&1@371\n" +
+                "2"))
+        onView(withId(R.id.inputField)).perform(clearText())
+        onView(withId(R.id.submitBTN)).perform(click())
+        onView(withId(R.id.textLabel)).check(matches(withText("")))
     }
 }
